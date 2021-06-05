@@ -1,2 +1,2 @@
 # Monkey
-Monkey is a extensive embedded scripting language derived from Lua
+Monkey is a a fast, small, safe, embeddable scripting language derived from Lua. This is an update repository
