@@ -1,8 +1,3 @@
-/*
-* Monkey Engine by TheFakeWater
-* VERSION: 1.0
-* Last edited: 05/06/2021
-*/
 #define _CRT_SECURE_NO_WARNINGS
 #define MONKEY_VERSION "1.1"
 #include <Windows.h>
