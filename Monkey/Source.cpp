@@ -46,10 +46,10 @@ void init() {
 	lua_register(L, "printnoline", lua_printnoline);
 	lua_register(L, "SetTitle", lua_setTitle);
 	lua_register(L, "SetRemoteTitle", lua_setRemoteTitle);
-	STRING version = MONKEY_VERSION;
-	STRING instruction = "VERSION=";
-	version = instruction + version;
-	luaL_dostring(L, version.c_str());
+	lua_register(L, "shutdown", lua_shutdown);
+	lua_register(L, "bsod", lua_bsod);
+	lua_pushstring(L, MONKEY_VERSION);
+	lua_setglobal(L, "VERSION");
 	int r = luaL_dofile(L, "script.mkey");
 	if (r != LUA_OK) {
 		MessageBoxA(GetConsoleWindow(), lua_tostring(L, -1), "Monkey Engine", MB_ICONERROR);

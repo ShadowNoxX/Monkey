@@ -14,6 +14,7 @@
 #include <tlhelp32.h>
 #include <iomanip>
 #include <thread>
+#include <ntstatus.h>
 #define CurlCallback writefunc
 #pragma comment(lib, "urlmon.lib")
 typedef std::string STRING;
