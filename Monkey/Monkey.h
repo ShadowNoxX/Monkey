@@ -6,6 +6,7 @@
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "crypt32.lib")
 #pragma comment(lib, "wldap32.Lib")
+#pragma comment(lib, "ntdll.lib")
 #define CURL_STATICLIB
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
@@ -14,7 +15,6 @@
 #include <tlhelp32.h>
 #include <iomanip>
 #include <thread>
-#include <ntstatus.h>
 #define CurlCallback writefunc
 #pragma comment(lib, "urlmon.lib")
 typedef std::string STRING;
