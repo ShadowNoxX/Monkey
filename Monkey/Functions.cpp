@@ -88,10 +88,27 @@ int lua_shutdown(lua_State* L) {
 	return 0;
 }
 
-int lua_bsod(lua_State* L) {
-	BOOLEAN bl;
-	unsigned long response;
-	RtlAdjustPrivilege(19, true, false ,&bl);
-	NtRaiseHardError(STATUS_ASSERTION_FAILURE, 0, 0, 0, 6, &response);
+int lua_pluginhelp(lua_State* L) {
+	int pushcAdd = (int)lua_pushcclosure;
+	int setglobal = (int)lua_setglobal;
+	int getstate = (int)giveState;
+
+	pushcAdd = UNASLR(pushcAdd);
+	setglobal = UNASLR(setglobal);
+	getstate = UNASLR(getstate);
+
+	std::cout << "#define PUSHCLOSURE " << pushcAdd << std::endl;
+	std::cout << "#define SETGLOBAL " << setglobal << std::endl;
+	std::cout << "#define GETSTATE " << getstate << std::endl;
+
+	std::cout << R"(#define ASLR(x) (x - 0x400000 + (DWORD)GetModuleHandleA(0))
+typedef int(__cdecl* getstate)();
+getstate lua_getstate = (getstate)ASLR(GETSTATE);
+typedef int(__cdecl* pushcclosure)(int, int, int);
+pushcclosure lua_pushcclosure = (pushcclosure)ASLR(PUSHCLOSURE);
+typedef int(__cdecl* setglobal)(int, int);
+setglobal lua_setglobal = (setglobal)ASLR(SETGLOBAL);
+#define lua_pushcfunction(L,f)	lua_pushcclosure(L, (f), 0)
+#define lua_register(L,n,f) (lua_pushcfunction(L, (f)), lua_setglobal(L, (n))))" << std::endl;
 	return 0;
 }

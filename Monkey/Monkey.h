@@ -19,3 +19,4 @@
 #pragma comment(lib, "urlmon.lib")
 typedef std::string STRING;
 typedef const char* CSTRING;
+#define UNASLR(x) (x + 0x400000 - (DWORD)GetModuleHandleA(0))

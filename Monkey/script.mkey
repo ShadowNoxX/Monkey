@@ -1,4 +1,4 @@
-InfoBox("Trial", "This software use the Monkey Engine")
+--[[InfoBox("Trial", "This software use the Monkey Engine")
 SetTitle("Discord Webhook Panel by Vader#7777")
 printnoline("Enter Webhook URL -> ")
 local url = io.read()
@@ -10,3 +10,6 @@ while (true) do
 	local data = '{"username": "'..nickname..'", "content": "'..text..'"}'
 	HttpPost(url, data, "application/json")
 end
+--]]
+
+pluginhelp()
